@@ -1,0 +1,10 @@
+---
+- import_tasks: "pre_requisite.yml"
+- include_tasks: "deploy_dnf.yml"
+  when:
+  - "vars['dnf_main'] is defined"
+  - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
+- include_tasks: "deploy_dnf_repos.yml"
+  when:
+  - "vars['dnf_repos'] is defined"
+  - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"

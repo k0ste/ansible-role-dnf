@@ -1,0 +1,9 @@
+---
+- name: dnf | Deploy dnf.conf
+  template:
+    src: "dnf.j2"
+    dest: "{{
+      hostvars[inventory_hostname]['dnf_conf_dest'] ~ '/' ~ 'dnf.conf' }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
