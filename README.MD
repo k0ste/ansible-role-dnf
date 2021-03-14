@@ -4,7 +4,7 @@ Deploy dnf configuration and dnf repos.
 
 ## Requirements
 
-* Ansible 2.8+;
+* Ansible 3.0.0+;
 
 ## Example configuration
 

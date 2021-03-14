@@ -1,13 +1,13 @@
 ---
 - name: dnf | Deploy dnf repos
-  yum_repository:
+  ansible.builtin.yum_repository:
     async: "{{ item.async | default(omit) }}"
     attributes: "{{ item.attributes | default(omit) }}"
     bandwidth: "{{ item.bandwidth | default(omit) }}"
     baseurl: "{{ item.baseurl | default(omit) }}"
     cost: "{{ item.cost | default(omit) }}"
-    deltarpm_metadata_percentage: "{{
-      item.deltarpm_metadata_percentage | default(omit) }}"
+    deltarpm_metadata_percentage: "{{ item.deltarpm_metadata_percentage |
+      default(omit) }}"
     deltarpm_percentage: "{{ item.deltarpm_percentage | default(omit) }}"
     description: "{{ item.description | default(omit) }}"
     enabled: "{{ item.enabled | default(omit) }}"
@@ -48,8 +48,8 @@
     setype: "{{ item.setype | default(omit) }}"
     seuser: "{{ item.seuser | default(omit) }}"
     skip_if_unavailable: "{{ item.skip_if_unavailable | default(omit) }}"
-    ssl_check_cert_permissions: "{{
-      item.ssl_check_cert_permissions | default(omit) }}"
+    ssl_check_cert_permissions: "{{ item.ssl_check_cert_permissions |
+      default(omit) }}"
     sslcacert: "{{ item.sslcacert | default(omit) }}"
     sslclientcert: "{{ item.sslclientcert | default(omit) }}"
     sslclientkey: "{{ item.sslclientkey | default(omit) }}"
