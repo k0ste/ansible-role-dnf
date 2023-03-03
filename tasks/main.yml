@@ -1,10 +1,13 @@
 ---
-- import_tasks: "pre_requisite.yml"
-- include_tasks: "deploy_dnf.yml"
+- ansible.builtin.import_tasks:
+    file: "pre_requisite.yml"
+- ansible.builtin.include_tasks:
+    file: "deploy_dnf.yml"
   when:
-    - "vars['dnf_main'] is defined"
-    - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
-- include_tasks: "deploy_dnf_repos.yml"
+    - "vars['dnf_settings_main'] is defined"
+    - "vars['dnf_settings_main'] != []"
+- ansible.builtin.include_tasks:
+    file: "deploy_dnf_repos.yml"
   when:
-    - "vars['dnf_repos'] is defined"
-    - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
+    - "vars['dnf_settings_repos'] is defined"
+    - "vars['dnf_settings_repos'] != []"

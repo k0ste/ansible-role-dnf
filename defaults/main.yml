@@ -1,3 +1,2 @@
 ---
-dnf_drop_exists_repos: 'false'
 dnf: []
