@@ -6,8 +6,10 @@
   when:
     - "vars['dnf_settings_main'] is defined"
     - "vars['dnf_settings_main'] != []"
+    - "vars['dnf_settings_main'] != ''"
 - ansible.builtin.include_tasks:
     file: "deploy_dnf_repos.yml"
   when:
     - "vars['dnf_settings_repos'] is defined"
     - "vars['dnf_settings_repos'] != []"
+    - "vars['dnf_settings_repos'] != ''"
