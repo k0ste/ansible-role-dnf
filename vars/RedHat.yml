@@ -1,3 +1,3 @@
 ---
-dnf_conf_dest: '/etc'
+dnf_conf_dest: '/etc/dnf'
 dnf_repos_dest: '/etc/yum.repos.d'
