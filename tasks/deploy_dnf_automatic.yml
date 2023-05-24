@@ -1,0 +1,14 @@
+---
+- name: "dnf | Install dnf-automatic package"
+  ansible.builtin.dnf:
+    name: "dnf-automatic"
+    state: "present"
+    update_cache: "yes"
+- name: "dnf | Deploy automatic.conf"
+  ansible.builtin.template:
+    src: "dnf_automatic.j2"
+    dest: "{{ hostvars[inventory_hostname]['dnf_conf_dest'] + '/' +
+      'automatic.conf' }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"

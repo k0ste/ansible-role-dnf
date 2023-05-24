@@ -26,6 +26,71 @@ dnf:
         baseurl: 'https://download.ceph.com/rpm-quincy/el$releasever/$basearch'
         gpgcheck: 'yes'
         gpgkey: 'https://download.ceph.com/keys/release.asc'
+# Alternative CLI to dnf upgrade with specific facilities to make it suitable to
+# be executed automatically and regularly from systemd timers, cron jobs and
+# similar
+  automatic:
+    - commands:
+# Whether packages comprising the available updates should be applied by
+# dnf-automatic.timer, i.e. installed via RPM. Implies `download_updates`.
+# Default is 'false'
+        - apply_updates: 'false'
+# Whether packages comprising the available updates should be downloaded by
+# dnf-automatic.timer. Default is 'false'
+          download_updates: 'false'
+# Maximal time dnf-automatic will wait until the system is online. 0 means that
+# network availability detection will be skipped. Default is 60 seconds
+          network_online_timeout: '60'
+# Maximal random delay before downloading. Note that, by default, the systemd
+# timers also apply a random delay of up to 1 hour. Default is '0' seconds
+          random_sleep: '0'
+# What kind of upgrades to look at. `default` signals looking for all available
+# updates, `security` only those with an issued security advisory
+          upgrade_type: 'default'
+# Choosing how the results should be reported
+      emitters:
+# List of emitters to report the results through. Available emitters are `stdio`
+# to print the result to standard output, `command` to send the result to a
+# custom command, `command_email` to send an email using a command, and `email`
+# to send the report via email and motd sends the result to /etc/motd file
+        - emit_via:
+            - 'email'
+            - 'stdio'
+            - 'motd'
+# How the system is called in the reports. Default is hostname of the given
+# system
+          system_name: ''
+# The command emitter configuration. Variables usable in format string arguments
+# are body with the message body
+     command:
+# The shell command to execute. Default is `cat`
+       - command_format: 'cat'
+# The data to pass to the command on stdin
+         stdin_format: '{body}'
+# The command email emitter configuration. Variables usable in format string
+# arguments are `body` with message body, `subject` with email subject,
+# `email_from` with the 'From:' address and `email_to` with a space-separated
+# list of recipients
+     command_email:
+# The shell command to execute. Default is: `mail -Ssendwait -s {subject} -r
+# {email_from} {email_to}`
+       - command_format: ''
+# Message's 'From:' address
+         email_from: 'root'
+# List of recipients of the message
+         email_to: 'root'
+# The data to pass to the command on stdin
+         stdin_format: '{body}'
+# The email emitter configuration
+     email:
+# Message's "From:" address. Default is 'root'
+       - email_from: 'root'
+# Hostname of the SMTP server used to send the message. Default is 'localhost'
+         email_host: 'localhost'
+# List of recipients of the message. Default is 'root'
+         email_to: 'root'
+# The same as `dnf main` section (override conf)
+    base: ''
 # The 'main' section must exist for DNF to do anything. It consists of the
 # following options:
     main:

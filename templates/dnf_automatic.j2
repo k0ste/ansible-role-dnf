@@ -1,0 +1,111 @@
+{{ '## automatic.conf' }}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+{% for a in vars['dnf_settings_automatic'] %}
+{% if a['commands'] is defined and a['commands'] != '' %}
+{% for ac in a['commands'] %}
+{% if loop['first'] %}
+{{ '' }}
+{{ '[commands]' }}
+{% endif %}
+{% if ac['apply_updates'] is defined and ac['apply_updates'] in
+  ['true', 'false'] %}
+{{ 'apply_updates=' + ac['apply_updates'] }}
+{% endif %}
+{% if ac['download_updates'] is defined and ac['download_updates'] in
+  ['true', 'false'] %}
+{{ 'download_updates=' + ac['download_updates'] }}
+{% endif %}
+{% if ac['network_online_timeout'] is defined and
+  ac['network_online_timeout'] != '' %}
+{{ 'network_online_timeout=' ~ ac['network_online_timeout'] }}
+{% endif %}
+{% if ac['random_sleep'] is defined and ac['random_sleep'] != '' %}
+{{ 'random_sleep=' ~ ac['random_sleep'] }}
+{% endif %}
+{% if ac['upgrade_type'] is defined and ac['upgrade_type'] in ['default',
+  'security'] %}
+{{ 'upgrade_type=' + ac['upgrade_type'] }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if a['emitters'] is defined and a['emitters'] != '' %}
+{% for ae in a['emitters'] %}
+{% if loop['first'] %}
+{{ '' }}
+{{ '[emitters]' }}
+{% endif %}
+{% if ae['emit_via'] is defined %}
+{% if ae['emit_via'] is string %}
+{{ 'emit_via=' + ae['emit_via'] }}
+{% elif ae['emit_via'] is sequence %}
+{{ 'emit_via=' + (ae['emit_via'] | join(', ')) }}
+{% endif %}
+{% endif %}
+{% if ae['system_name'] is defined and ae['system_name'] != '' %}
+{{ 'system_name=' + ae['system_name'] }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if a['command'] is defined and a['command'] != '' %}
+{% for ac in a['command'] %}
+{% if loop['first'] %}
+{{ '' }}
+{{ '[command]' }}
+{% endif %}
+{% if ac['command_format'] is defined and ac['command_format'] != '' %}
+{{ 'command_format=' + ac['command_format'] }}
+{% endif %}
+{% if ac['stdin_format'] is defined and ac['stdin_format'] != '' %}
+{{ 'stdin_format=' + ac['stdin_format'] }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if a['command_email'] is defined and a['command_email'] != '' %}
+{% for ac in a['command_email'] %}
+{% if loop['first'] %}
+{{ '' }}
+{{ '[command_email]' }}
+{% endif %}
+{% if ac['command_format'] is defined and ac['command_format'] != '' %}
+{{ 'command_format=' + ac['command_format'] }}
+{% endif %}
+{% if ac['email_from'] is defined and ac['email_from'] != '' %}
+{{ 'email_from=' + ac['email_from'] }}
+{% endif %}
+{% if ac['email_to'] is defined and ac['email_to'] != '' %}
+{{ 'email_to=' + ac['email_to'] }}
+{% endif %}
+{% if ac['stdin_format'] is defined and ac['stdin_format'] != '' %}
+{{ 'stdin_format=' + ac['stdin_format'] }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if a['email'] is defined and a['email'] != '' %}
+{% for ae in a['email'] %}
+{% if loop['first'] %}
+{{ '' }}
+{{ '[email]' }}
+{% endif %}
+{% if ae['email_from'] is defined and ae['email_from'] != '' %}
+{{ 'email_from=' + ae['email_from'] }}
+{% endif %}
+{% if ae['email_host'] is defined and ae['email_host'] != '' %}
+{{ 'email_host=' + ae['email_host'] }}
+{% endif %}
+{% if ae['email_to'] is defined and ae['email_to'] != '' %}
+{{ 'email_to=' + ae['email_to'] }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if a['base'] is defined and a['base'] != '' %}
+{% for d in a['base'] %}
+{% if loop['first'] %}
+{{ '' }}
+{{ '[base]' }}
+{% endif %}
+{% include 'dnf_base.j2' %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+

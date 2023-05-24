@@ -2,14 +2,20 @@
 - ansible.builtin.import_tasks:
     file: "pre_requisite.yml"
 - ansible.builtin.include_tasks:
+    file: "deploy_dnf_repos.yml"
+  when:
+    - "vars['dnf_settings_repos'] is defined"
+    - "vars['dnf_settings_repos'] != []"
+    - "vars['dnf_settings_repos'] != ''"
+- ansible.builtin.include_tasks:
     file: "deploy_dnf.yml"
   when:
     - "vars['dnf_settings_main'] is defined"
     - "vars['dnf_settings_main'] != []"
     - "vars['dnf_settings_main'] != ''"
 - ansible.builtin.include_tasks:
-    file: "deploy_dnf_repos.yml"
+    file: "deploy_dnf_automatic.yml"
   when:
-    - "vars['dnf_settings_repos'] is defined"
-    - "vars['dnf_settings_repos'] != []"
-    - "vars['dnf_settings_repos'] != ''"
+    - "vars['dnf_settings_automatic'] is defined"
+    - "vars['dnf_settings_automatic'] != []"
+    - "vars['dnf_settings_automatic'] != ''"
