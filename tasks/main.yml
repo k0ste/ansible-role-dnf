@@ -1,19 +1,35 @@
 ---
-- ansible.builtin.import_tasks:
+- name: "dnf | Include pre requisite tasks"
+  ansible.builtin.import_tasks:
     file: "pre_requisite.yml"
-- ansible.builtin.include_tasks:
+- name: "dnf | Include repos tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_dnf_repos.yml"
   when:
     - "vars['dnf_settings_repos'] is defined"
     - "vars['dnf_settings_repos'] != []"
     - "vars['dnf_settings_repos'] != ''"
-- ansible.builtin.include_tasks:
+- name: "dnf | Include dnf main settings tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_dnf.yml"
   when:
     - "vars['dnf_settings_main'] is defined"
     - "vars['dnf_settings_main'] != []"
     - "vars['dnf_settings_main'] != ''"
-- ansible.builtin.include_tasks:
+- name: "dnf | Include dnf-versionlock tasks"
+  ansible.builtin.include_tasks:
+    file: "deploy_dnf_versionlock.yml"
+  when:
+    - "hostvars[inventory_hostname]['dnf'] is defined"
+    - "hostvars[inventory_hostname]['dnf'] != ''"
+    - "hostvars[inventory_hostname]['dnf'] |
+       community.general.json_query(vars['dnf_versionlock_enable']) is defined"
+    - "hostvars[inventory_hostname]['dnf'] |
+       community.general.json_query(vars['dnf_versionlock_enable']) == 'true'"
+  vars:
+    dnf_versionlock_enable: "[].versionlock[] | map(&enable || 'false', @) | [0]"
+- name: "dnf | Include dnf-automatic tasks"
+  ansible.builtin.include_tasks:
     file: "deploy_dnf_automatic.yml"
   when:
     - "vars['dnf_settings_automatic'] is defined"

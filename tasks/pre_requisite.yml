@@ -22,6 +22,8 @@
       community.general.json_query('[].main[]') }}"
     dnf_settings_automatic: "{{ hostvars[inventory_hostname]['dnf'] |
       community.general.json_query('[].automatic[]') }}"
+    dnf_settings_versionlock: "{{ hostvars[inventory_hostname]['dnf'] |
+      community.general.json_query('[].versionlock[]') }}"
     dnf_settings_repos: "{{ hostvars[inventory_hostname]['dnf'] |
       community.general.json_query('[].repos') }}"
     dnf_repos: "{{ hostvars[inventory_hostname]['dnf'] |

@@ -1,0 +1,14 @@
+---
+- name: "dnf | Install dnf-plugin-versionlock package"
+  ansible.builtin.dnf:
+    name: "dnf-plugin-versionlock"
+    state: "present"
+    update_cache: "yes"
+- name: "dnf | Deploy versionlock.list"
+  ansible.builtin.template:
+    src: "dnf_versionlock.j2"
+    dest: "{{ hostvars[inventory_hostname]['dnf_conf_dest'] + '/plugins/' +
+      'versionlock.list' }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"

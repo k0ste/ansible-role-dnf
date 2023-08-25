@@ -26,6 +26,23 @@ dnf:
         baseurl: 'https://download.ceph.com/rpm-quincy/el$releasever/$basearch'
         gpgcheck: 'yes'
         gpgkey: 'https://download.ceph.com/keys/release.asc'
+# dnf-versionlock - DNF versionlock Plugin that takes a set of names and
+# versions for packages and excludes all other versions of those packages. This
+# allows you to protect packages from being updated by newer versions.
+# Alternately, it accepts a specific package version to exclude from updates,
+# e.g. for when it's necessary to skip a specific release of a package that has
+# known issues.
+  versionlock:
+# If you want to remove all pins, the 'enable' shoud be in 'true' & pins should
+# be empty
+    - enable: 'true'
+      pins:
+      # pin kernel release to 348
+        - 'kernel-4.18.0-348\*'
+        - 'kernel-*-4.18.0-348\*'
+      # definetly skip kernel release 500
+        - '!kernel-4.18.0-500\*'
+        - '!kernel-*-4.18.0-500\*'
 # Alternative CLI to dnf upgrade with specific facilities to make it suitable to
 # be executed automatically and regularly from systemd timers, cron jobs and
 # similar

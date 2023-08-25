@@ -1,0 +1,14 @@
+{{ '## versionlock.list' }}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+
+{% if vars['dnf_settings_versionlock'] is defined and
+  vars['dnf_settings_versionlock'] != '' %}
+{% for vl in vars['dnf_settings_versionlock'] %}
+{% if vl['pins'] is defined and vl['pins'] != [] %}
+{% for vlp in vl['pins'] %}
+{{ vlp }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
