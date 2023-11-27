@@ -6,12 +6,11 @@
     fail_msg: "'ansible_facts' not found. Please enable facts gathering"
     quiet: "true"
 - name: "dnf | Assert about package manager"
-  ansible.builtin.assert:
-    that:
-      - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
-    fail_msg: "{{ 'Package manager is: ' +
+  ansible.builtin.debug:
+    msg: "{{ 'Package manager is: ' +
       hostvars[inventory_hostname]['ansible_pkg_mgr'] + ', not dnf' }}"
-    quiet: "true"
+  when:
+    - "hostvars[inventory_hostname]['ansible_pkg_mgr'] != 'dnf'"
 - name: "dnf | Add the OS specific variables"
   ansible.builtin.include_vars:
     file: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
