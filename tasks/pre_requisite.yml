@@ -26,8 +26,9 @@
       community.general.json_query('[].versionlock[]') }}"
     dnf_settings_repos: "{{ hostvars[inventory_hostname]['dnf'] |
       community.general.json_query('[].repos') }}"
-    dnf_repos: "{{ hostvars[inventory_hostname]['dnf'] |
-      community.general.json_query('[].repos[].file') }}"
+    dnf_repos_files: "{{ hostvars[inventory_hostname]['dnf'] |
+      community.general.json_query('[].repos[].file') |
+      ansible.builtin.unique() }}"
 - name: "dnf | Find exists dnf repos"
   ansible.builtin.find:
     paths: "{{ hostvars[inventory_hostname]['dnf_repos_dest'] }}"
@@ -35,8 +36,8 @@
     file_type: "file"
     use_regex: "true"
     patterns: "(.*).repo"
-    excludes: "{{ exclude_dnf_drop_exists | default('[]') }}"
-  register: "dnf_find_result"
+    excludes: "{{ exclude_dnf_drop_exists }}"
+  register: "dnf_repo_files_find_result"
   when:
     - "hostvars[inventory_hostname]['dnf'] is defined"
     - "hostvars[inventory_hostname]['dnf'] != ''"
@@ -44,16 +45,18 @@
        community.general.json_query(vars['dnf_drop_exists']) is defined"
     - "hostvars[inventory_hostname]['dnf'] |
        community.general.json_query(vars['dnf_drop_exists']) == 'true'"
+    - "exclude_dnf_drop_exists != []"
   vars:
     dnf_drop_exists: "[] | map(&drop_exists || 'false', @) | [0]"
-    exclude_dnf_drop_exists: "{{ vars['dnf_repos'] | map('regex_replace',
-      '^(.*)$', '\\1.repo') | list() }}"
+    exclude_dnf_drop_exists: "{{ (vars['dnf_repos_files'] | map('regex_replace',
+      '^(.*)$', '\\1.repo') | list() | default([])) }}"
 - name: "dnf | Delete exists dnf repos"
   ansible.builtin.file:
-    path: "{{ item['path'] }}"
+    path: "{{ repo['path'] }}"
     state: "absent"
-  loop: "{{ vars['dnf_find_result']['files'] | flatten(levels=1) }}"
+  loop: "{{ vars['dnf_repo_files_find_result']['files'] | flatten(levels=1) }}"
   loop_control:
-    label: "{{ item['path'] }}"
+    loop_var: "repo"
+    label: "{{ 'Remove repo:' + repo['path'] }}"
   when:
-    - "vars['dnf_find_result']['files'] is defined"
+    - "vars['dnf_repo_files_find_result']['files'] is defined"
