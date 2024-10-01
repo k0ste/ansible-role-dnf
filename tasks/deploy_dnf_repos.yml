@@ -31,6 +31,7 @@
     metalink: "{{ item['metalink'] | default(omit) }}"
     mirrorlist: "{{ item['mirrorlist'] | default(omit) }}"
     mirrorlist_expire: "{{ item['mirrorlist_expire'] | default(omit) }}"
+    module_hotfixes: "{{ item['module_hotfixes'] | default(omit) }}"
     mode: "{{ item['mode'] | default(omit) }}"
     name: "{{ item['name'] }}"
     owner: "{{ item['owner'] | default(omit) }}"
