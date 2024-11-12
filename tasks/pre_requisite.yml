@@ -29,6 +29,10 @@
     dnf_repos_files: "{{ hostvars[inventory_hostname]['dnf'] |
       community.general.json_query('[].repos[].file') |
       ansible.builtin.unique() }}"
+  when:
+    - "hostvars[inventory_hostname]['dnf'] is defined"
+    - "hostvars[inventory_hostname]['dnf'] != ''"
+    - "hostvars[inventory_hostname]['dnf'] != []"
 - name: "dnf | Find exists dnf repos"
   ansible.builtin.find:
     paths: "{{ hostvars[inventory_hostname]['dnf_repos_dest'] }}"
