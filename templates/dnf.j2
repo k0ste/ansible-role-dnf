@@ -1,6 +1,6 @@
 {{ '## dnf.conf' }}
 {{ '# ' + ansible_managed }}
-{{ '# ' + 'Do not edit manually' }}
+{{ '# Do not edit manually' }}
 
 {% for d in vars['dnf_settings_main'] %}
 {% if loop['first'] %}

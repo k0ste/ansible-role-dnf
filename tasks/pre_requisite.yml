@@ -31,8 +31,9 @@
       ansible.builtin.unique() }}"
   when:
     - "hostvars[inventory_hostname]['dnf'] is defined"
-    - "hostvars[inventory_hostname]['dnf'] != ''"
     - "hostvars[inventory_hostname]['dnf'] != []"
+    - "hostvars[inventory_hostname]['dnf'] != ''"
+    - "hostvars[inventory_hostname]['dnf'] != None"
 - name: "dnf | Find exists dnf repos"
   ansible.builtin.find:
     paths: "{{ hostvars[inventory_hostname]['dnf_repos_dest'] }}"

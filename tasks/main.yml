@@ -9,6 +9,7 @@
     - "vars['dnf_settings_repos'] is defined"
     - "vars['dnf_settings_repos'] != []"
     - "vars['dnf_settings_repos'] != ''"
+    - "vars['dnf_settings_repos'] != None"
 - name: "dnf | Include dnf main settings tasks"
   ansible.builtin.include_tasks:
     file: "deploy_dnf.yml"
@@ -16,6 +17,7 @@
     - "vars['dnf_settings_main'] is defined"
     - "vars['dnf_settings_main'] != []"
     - "vars['dnf_settings_main'] != ''"
+    - "vars['dnf_settings_main'] != None"
 - name: "dnf | Include dnf-versionlock tasks"
   ansible.builtin.include_tasks:
     file: "deploy_dnf_versionlock.yml"
@@ -35,3 +37,4 @@
     - "vars['dnf_settings_automatic'] is defined"
     - "vars['dnf_settings_automatic'] != []"
     - "vars['dnf_settings_automatic'] != ''"
+    - "vars['dnf_settings_automatic'] != None"

@@ -1,6 +1,6 @@
 {{ '## automatic.conf' }}
 {{ '# ' + ansible_managed }}
-{{ '# ' + 'Do not edit manually' }}
+{{ '# Do not edit manually' }}
 {% for a in vars['dnf_settings_automatic'] %}
 {% if a['commands'] is defined and a['commands'] != '' %}
 {% for ac in a['commands'] %}
