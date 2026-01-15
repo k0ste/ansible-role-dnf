@@ -1,9 +1,13 @@
 ---
 - name: "dnf | Install dnf-automatic package"
-  ansible.builtin.dnf:
-    name: "dnf-automatic"
-    state: "present"
-    update_cache: "yes"
+  block:
+    - name: "dnf | Update dnf cache"
+      ansible.builtin.dnf:
+        update_cache: "yes"
+    - name: "dnf | Install package with dnf"
+      ansible.builtin.dnf:
+        name: "dnf-automatic"
+        state: "present"
 - name: "dnf | Deploy automatic.conf"
   ansible.builtin.template:
     src: "dnf_automatic.j2"

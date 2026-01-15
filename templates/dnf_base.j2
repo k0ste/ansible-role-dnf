@@ -2,7 +2,7 @@
   ['true', 'false'] %}
 {{ 'allow_vendor_change=' + d['allow_vendor_change'] }}
 {% endif %}
-{% if d['arch'] is defined and d['arch'] != '' %}
+{% if d['arch'] is defined and d['arch'] not in ['', [], '[]', None] %}
 {{ 'arch=' + d['arch'] }}
 {% endif %}
 {% if d['assumeno'] is defined and d['assumeno'] in ['true', 'false'] %}
@@ -15,13 +15,13 @@
   d['autocheck_running_kernel'] in ['true', 'false'] %}
 {{ 'autocheck_running_kernel=' + d['autocheck_running_kernel'] }}
 {% endif %}
-{% if d['basearch'] is defined and d['basearch'] != '' %}
+{% if d['basearch'] is defined and d['basearch'] not in ['', [], '[]', None] %}
 {{ 'basearch=' + d['basearch'] }}
 {% endif %}
 {% if d['best'] is defined and d['best'] in ['true', 'false'] %}
 {{ 'best=' + d['best'] }}
 {% endif %}
-{% if d['cachedir'] is defined and d['cachedir'] != '' %}
+{% if d['cachedir'] is defined and d['cachedir'] not in ['', [], '[]', None] %}
 {{ 'cachedir=' + d['cachedir'] }}
 {% endif %}
 {% if d['cacheonly'] is defined and d['cacheonly'] in ['true', 'false'] %}
@@ -35,10 +35,12 @@
   d['clean_requirements_on_remove'] in ['true', 'false'] %}
 {{ 'clean_requirements_on_remove=' + d['clean_requirements_on_remove'] }}
 {% endif %}
-{% if d['config_file_path'] is defined and d['config_file_path'] != '' %}
+{% if d['config_file_path'] is defined and
+  d['config_file_path'] not in ['', [], '[]', None] %}
 {{ 'config_file_path=' + d['config_file_path'] }}
 {% endif %}
-{% if d['debuglevel'] is defined and d['debuglevel'] != '' %}
+{% if d['debuglevel'] is defined and d['debuglevel']
+  not in ['', [], '[]', None] %}
 {{ 'debuglevel=' ~ d['debuglevel'] }}
 {% endif %}
 {% if d['debug_solver'] is defined and d['debug_solver'] in ['true', 'false'] %}
@@ -58,19 +60,23 @@
   d['gpgkey_dns_verification'] in ['true', 'false'] %}
 {{ 'gpgkey_dns_verification=' + d['gpgkey_dns_verification'] }}
 {% endif %}
-{% if d['group_package_types'] is defined and d['group_package_types'] != '' %}
+{% if d['group_package_types'] is defined and d['group_package_types']
+  not in ['', [], '[]', None] %}
 {{ 'group_package_types=' + d['group_package_types'] | join(', ') }}
 {% endif %}
 {% if d['ignorearch'] is defined and d['ignorearch'] in ['true', 'false'] %}
 {{ 'ignorearch=' + d['ignorearch'] }}
 {% endif %}
-{% if d['installonlypkgs'] is defined and d['installonlypkgs'] != '' %}
+{% if d['installonlypkgs'] is defined and d['installonlypkgs']
+  not in ['', [], '[]', None] %}
 {{ 'installonlypkgs=' + d['installonlypkgs'] | join(' ') }}
 {% endif %}
-{% if d['installonly_limit'] is defined and d['installonly_limit'] != '' %}
+{% if d['installonly_limit'] is defined and d['installonly_limit']
+  not in ['', [], '[]', None] %}
 {{ 'installonly_limit=' ~ d['installonly_limit'] }}
 {% endif %}
-{% if d['installroot'] is defined and d['installroot'] != '' %}
+{% if d['installroot'] is defined and d['installroot']
+  not in ['', [], '[]', None] %}
 {{ 'installroot=' + d['installroot'] }}
 {% endif %}
 {% if d['install_weak_deps'] is defined and d['install_weak_deps'] in
@@ -80,29 +86,33 @@
 {% if d['keepcache'] is defined and d['keepcache'] in ['true', 'false'] %}
 {{ 'keepcache=' + d['keepcache'] }}
 {% endif %}
-{% if d['logdir'] is defined and d['logdir'] != '' %}
+{% if d['logdir'] is defined and d['logdir'] not in ['', [], '[]', None] %}
 {{ 'logdir=' + d['logdir'] }}
 {% endif %}
-{% if d['logfilelevel'] is defined and d['logfilelevel'] != '' %}
+{% if d['logfilelevel'] is defined and d['logfilelevel']
+  not in ['', [], '[]', None] %}
 {{ 'logfilelevel=' ~ d['logfilelevel'] }}
 {% endif %}
 {% if d['log_compress'] is defined and d['log_compress'] in ['true', 'false'] %}
 {{ 'log_compress=' + d['log_compress'] }}
 {% endif %}
-{% if d['log_rotate'] is defined and d['log_rotate'] != '' %}
+{% if d['log_rotate'] is defined and d['log_rotate']
+  not in ['', [], '[]', None] %}
 {{ 'log_rotate=' ~ d['log_rotate'] }}
 {% endif %}
-{% if d['log_size'] is defined and d['log_size'] != '' %}
+{% if d['log_size'] is defined and d['log_size'] not in ['', [], '[]', None] %}
 {{ 'log_size=' ~ d['log_size'] }}
 {% endif %}
-{% if d['metadata_timer_sync'] is defined and d['metadata_timer_sync'] != '' %}
+{% if d['metadata_timer_sync'] is defined and d['metadata_timer_sync']
+  not in ['', [], '[]', None] %}
 {{ 'metadata_timer_sync=' ~ d['metadata_timer_sync'] }}
 {% endif %}
 {% if d['module_obsoletes'] is defined and d['module_obsoletes'] in
   ['true', 'false'] %}
 {{ 'module_obsoletes=' + d['module_obsoletes'] }}
 {% endif %}
-{% if d['module_platform_id'] is defined and d['module_platform_id'] != '' %}
+{% if d['module_platform_id'] is defined and d['module_platform_id']
+  not in ['', [], '[]', None] %}
 {{ 'module_platform_id=' + d['module_platform_id'] }}
 {% endif %}
 {% if d['module_obsoletes'] is defined and d['module_obsoletes'] in
@@ -120,29 +130,35 @@
 {% if d['obsoletes'] is defined and d['obsoletes'] in ['true', 'false'] %}
 {{ 'obsoletes=' + d['obsoletes'] }}
 {% endif %}
-{% if d['persistdir'] is defined and d['persistdir'] != '' %}
+{% if d['persistdir'] is defined and d['persistdir']
+  not in ['', [], '[]', None] %}
 {{ 'persistdir=' + d['persistdir'] }}
 {% endif %}
-{% if d['pluginconfpath'] is defined and d['pluginconfpath'] != '' %}
+{% if d['pluginconfpath'] is defined and d['pluginconfpath']
+  not in ['', [], '[]', None] %}
 {{ 'pluginconfpath=' + d['pluginconfpath'] }}
 {% endif %}
-{% if d['pluginpath'] is defined and d['pluginpath'] != '' %}
+{% if d['pluginpath'] is defined and d['pluginpath']
+  not in ['', [], '[]', None] %}
 {{ 'pluginpath=' + d['pluginpath'] }}
 {% endif %}
 {% if d['plugins'] is defined and d['plugins'] in ['true', 'false'] %}
 {{ 'plugins=' + d['plugins'] }}
 {% endif %}
-{% if d['protected_packages'] is defined and d['protected_packages'] != '' %}
+{% if d['protected_packages'] is defined and d['protected_packages']
+  not in ['', [], '[]', None] %}
 {{ 'protected_packages=' + d['protected_packages'] | join(', ') }}
 {% endif %}
 {% if d['protect_running_kernel'] is defined and d['protect_running_kernel']
   in ['true', 'false'] %}
 {{ 'protect_running_kernel=' + d['protect_running_kernel'] }}
 {% endif %}
-{% if d['releasever'] is defined and d['releasever'] != '' %}
+{% if d['releasever'] is defined and d['releasever']
+  not in ['', [], '[]', None] %}
 {{ 'releasever=' + d['releasever'] }}
 {% endif %}
-{% if d['reposdir'] is defined and d['reposdir'] != '' %}
+{% if d['reposdir'] is defined and d['reposdir']
+  not in ['', [], '[]', None] %}
 {{ 'reposdir=' + d['reposdir'] | join(', ') }}
 {% endif %}
 {% if d['rpmverbosity'] is defined and d['rpmverbosity'] in ['critical',
@@ -152,21 +168,22 @@
 {% if d['strict'] is defined and d['strict'] in ['true', 'false'] %}
 {{ 'strict=' + d['strict'] }}
 {% endif %}
-{% if d['tsflags'] is defined and d['tsflags'] != '' %}
+{% if d['tsflags'] is defined and d['tsflags'] not in ['', [], '[]', None] %}
 {{ 'tsflags=' + d['tsflags'] | join(', ') }}
 {% endif %}
 {% if d['upgrade_group_objects_upgrade'] is defined and
   d['upgrade_group_objects_upgrade'] in ['true', 'false'] %}
 {{ 'upgrade_group_objects_upgrade=' + d['upgrade_group_objects_upgrade'] }}
 {% endif %}
-{% if d['varsdir'] is defined and d['varsdir'] != '' %}
+{% if d['varsdir'] is defined and d['varsdir'] not in ['', [], '[]', None] %}
 {{ 'varsdir=' + d['varsdir'] | join(', ') }}
 {% endif %}
 {% if d['zchunk'] is defined and d['zchunk'] in ['true', 'false'] %}
 {{ 'zchunk=' + d['zchunk'] }}
 {% endif %}
 {#} OPTIONS FOR BOTH [MAIN] AND REPO {#}
-{% if d['bandwidth'] is defined and d['bandwidth'] != '' %}
+{% if d['bandwidth'] is defined and d['bandwidth']
+  not in ['', [], '[]', None] %}
 {{ 'bandwidth=' ~ d['bandwidth'] }}
 {% endif %}
 {% if d['countme'] is defined and d['countme'] in ['true', 'false'] %}
@@ -175,13 +192,15 @@
 {% if d['deltarpm'] is defined and d['deltarpm'] in ['true', 'false'] %}
 {{ 'deltarpm=' + d['deltarpm'] }}
 {% endif %}
-{% if d['deltarpm_percentage'] is defined and d['deltarpm_percentage'] != '' %}
+{% if d['deltarpm_percentage'] is defined and d['deltarpm_percentage']
+  not in ['', [], '[]', None] %}
 {{ 'deltarpm_percentage=' ~ d['deltarpm_percentage'] }}
 {% endif %}
 {% if d['enablegroups'] is defined and d['enablegroups'] in ['true', 'false'] %}
 {{ 'enablegroups=' + d['enablegroups'] }}
 {% endif %}
-{% if d['excludepkgs'] is defined and d['excludepkgs'] != '' %}
+{% if d['excludepkgs'] is defined and d['excludepkgs']
+  not in ['', [], '[]', None] %}
 {% if d['excludepkgs'] is string %}
 {{ 'excludepkgs=' + d['excludepkgs'] }}
 {% elif d['excludepkgs'] is sequence %}
@@ -195,7 +214,8 @@
 {% if d['gpgcheck'] is defined and d['gpgcheck'] in ['true', 'false'] %}
 {{ 'gpgcheck=' + d['gpgcheck'] }}
 {% endif %}
-{% if d['includepkgs'] is defined and d['includepkgs'] != '' %}
+{% if d['includepkgs'] is defined and d['includepkgs']
+  not in ['', [], '[]', None] %}
 {% if d['includepkgs'] is string %}
 {{ 'includepkgs=' + d['includepkgs'] }}
 {% elif d['includepkgs'] is sequence %}
@@ -211,56 +231,63 @@
 {{ 'localpkg_gpgcheck=' + d['localpkg_gpgcheck'] }}
 {% endif %}
 {% if d['max_parallel_downloads'] is defined and
-  d['max_parallel_downloads'] != '' %}
+  d['max_parallel_downloads'] not in ['', [], '[]', None] %}
 {{ 'max_parallel_downloads=' ~ d['max_parallel_downloads'] }}
 {% endif %}
-{% if d['metadata_expire'] is defined and d['metadata_expire'] != '' %}
+{% if d['metadata_expire'] is defined and d['metadata_expire']
+  not in ['', [], '[]', None] %}
 {{ 'metadata_expire=' ~ d['metadata_expire'] }}
 {% endif %}
-{% if d['minrate'] is defined and d['minrate'] != '' %}
+{% if d['minrate'] is defined and d['minrate'] not in ['', [], '[]', None] %}
 {{ 'minrate=' ~ d['minrate'] }}
 {% endif %}
-{% if d['password'] is defined and d['password'] != '' %}
+{% if d['password'] is defined and d['password'] not in ['', [], '[]', None] %}
 {{ 'password=' ~ d['password'] }}
 {% endif %}
-{% if d['proxy'] is defined and d['proxy'] != '' %}
+{% if d['proxy'] is defined and d['proxy'] not in ['', [], '[]', None] %}
 {{ 'proxy=' + d['proxy'] }}
 {% endif %}
-{% if d['proxy_username'] is defined and d['proxy_username'] != '' %}
+{% if d['proxy_username'] is defined and d['proxy_username']
+  not in ['', [], '[]', None] %}
 {{ 'proxy_username=' + d['proxy_username'] }}
 {% endif %}
-{% if d['proxy_password'] is defined and d['proxy_password'] != '' %}
+{% if d['proxy_password'] is defined and d['proxy_password']
+  not in ['', [], '[]', None] %}
 {{ 'proxy_password=' + d['proxy_password'] }}
 {% endif %}
 {% if d['proxy_auth_method'] is defined and d['proxy_auth_method'] in ['basic',
   'digest', 'negotiate', 'ntlm', 'digest_ie', 'ntlm_wb', 'none', 'any'] %}
 {{ 'proxy_auth_method=' + d['proxy_auth_method'] }}
 {% endif %}
-{% if d['proxy_sslcacert'] is defined and d['proxy_sslcacert'] != '' %}
+{% if d['proxy_sslcacert'] is defined and d['proxy_sslcacert']
+  not in ['', [], '[]', None] %}
 {{ 'proxy_sslcacert=' + d['proxy_sslcacert'] }}
 {% endif %}
 {% if d['proxy_sslverify'] is defined and d['proxy_sslverify'] in
   ['true', 'false'] %}
 {{ 'proxy_sslverify=' + d['proxy_sslverify'] }}
 {% endif %}
-{% if d['proxy_sslclientcert'] is defined and d['proxy_sslclientcert'] != '' %}
+{% if d['proxy_sslclientcert'] is defined and d['proxy_sslclientcert']
+  not in ['', [], '[]', None] %}
 {{ 'proxy_sslclientcert=' + d['proxy_sslclientcert'] }}
 {% endif %}
-{% if d['proxy_sslclientkey'] is defined and d['proxy_sslclientkey'] != '' %}
+{% if d['proxy_sslclientkey'] is defined and d['proxy_sslclientkey']
+  not in ['', [], '[]', None] %}
 {{ 'proxy_sslclientkey=' + d['proxy_sslclientkey'] }}
 {% endif %}
 {% if d['repo_gpgcheck'] is defined and d['repo_gpgcheck'] in
   ['true', 'false'] %}
 {{ 'repo_gpgcheck=' + d['repo_gpgcheck'] }}
 {% endif %}
-{% if d['retries'] is defined and d['retries'] != '' %}
+{% if d['retries'] is defined and d['retries'] not in ['', [], '[]', None] %}
 {{ 'retries=' ~ d['retries'] }}
 {% endif %}
 {% if d['skip_if_unavailable'] is defined and d['skip_if_unavailable'] in
   ['true', 'false'] %}
 {{ 'skip_if_unavailable=' + d['skip_if_unavailable'] }}
 {% endif %}
-{% if d['sslcacert'] is defined and d['sslcacert'] != '' %}
+{% if d['sslcacert'] is defined and d['sslcacert']
+  not in ['', [], '[]', None] %}
 {{ 'sslcacert=' + d['sslcacert'] }}
 {% endif %}
 {% if d['sslverify'] is defined and d['sslverify'] in ['true', 'false'] %}
@@ -270,21 +297,24 @@
   'false'] %}
 {{ 'sslverifystatus=' + d['sslverifystatus'] }}
 {% endif %}
-{% if d['sslclientcert'] is defined and d['sslclientcert'] != '' %}
+{% if d['sslclientcert'] is defined and d['sslclientcert']
+  not in ['', [], '[]', None] %}
 {{ 'sslclientcert=' + d['sslclientcert'] }}
 {% endif %}
-{% if d['sslclientkey'] is defined and d['sslclientkey'] != '' %}
+{% if d['sslclientkey'] is defined and d['sslclientkey']
+  not in ['', [], '[]', None] %}
 {{ 'sslclientkey=' + d['sslclientkey'] }}
 {% endif %}
-{% if d['throttle'] is defined and d['throttle'] != '' %}
+{% if d['throttle'] is defined and d['throttle'] not in ['', [], '[]', None] %}
 {{ 'throttle=' ~ d['throttle'] }}
 {% endif %}
-{% if d['timeout'] is defined and d['timeout'] != '' %}
+{% if d['timeout'] is defined and d['timeout'] not in ['', [], '[]', None] %}
 {{ 'timeout=' ~ d['timeout'] }}
 {% endif %}
-{% if d['username'] is defined and d['username'] != '' %}
+{% if d['username'] is defined and d['username'] not in ['', [], '[]', None] %}
 {{ 'username=' ~ d['username'] }}
 {% endif %}
-{% if d['user_agent'] is defined and d['user_agent'] != '' %}
+{% if d['user_agent'] is defined and d['user_agent']
+  not in ['', [], '[]', None] %}
 {{ 'user_agent=' + d['user_agent'] }}
 {% endif %}

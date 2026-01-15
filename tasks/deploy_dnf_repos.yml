@@ -62,7 +62,8 @@
     ui_repoid_vars: "{{ repo['ui_repoid_vars'] | default(omit) }}"
     unsafe_writes: "{{ repo['unsafe_writes'] | default(omit) }}"
     username: "{{ repo['username'] | default(omit) }}"
-  loop: "{{ vars['dnf_settings_repos'] | flatten(levels=1) }}"
+  loop: "{{ lookup('ansible.builtin.vars', 'dnf_settings_repos') |
+    flatten(levels=1) }}"
   loop_control:
     loop_var: "repo"
     label: "{{ 'Deploy DNF repo: ' ~ repo['name'] }}"

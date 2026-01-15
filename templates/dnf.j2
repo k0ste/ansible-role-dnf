@@ -2,7 +2,7 @@
 {{ '# ' + ansible_managed }}
 {{ '# Do not edit manually' }}
 
-{% for d in vars['dnf_settings_main'] %}
+{% for d in lookup('ansible.builtin.vars', 'dnf_settings_main') %}
 {% if loop['first'] %}
 {{ '[main]' }}
 {% endif %}

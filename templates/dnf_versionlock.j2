@@ -2,10 +2,9 @@
 {{ '# ' + ansible_managed }}
 {{ '# Do not edit manually' }}
 
-{% if vars['dnf_settings_versionlock'] is defined and
-  (vars['dnf_settings_versionlock'] != '' or
-  vars['dnf_settings_versionlock'] != None) %}
-{% for vl in vars['dnf_settings_versionlock'] %}
+{% if lookup('ansible.builtin.vars', 'dnf_settings_versionlock', default='')
+  not in ['', [], '[]', None] %}
+{% for vl in lookup('ansible.builtin.vars', 'dnf_settings_versionlock') %}
 {% if vl['pins'] is defined and vl['pins'] != [] %}
 {% for vlp in vl['pins'] %}
 {{ vlp }}

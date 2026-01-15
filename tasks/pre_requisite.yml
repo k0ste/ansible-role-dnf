@@ -2,20 +2,21 @@
 - name: "dnf | Assert that ansible facts gathered successfully"
   ansible.builtin.assert:
     that:
-      - "hostvars[inventory_hostname]['ansible_pkg_mgr'] is defined"
+      - "hostvars[inventory_hostname]['ansible_facts']['pkg_mgr'] is defined"
     fail_msg: "'ansible_facts' not found. Please enable facts gathering"
     quiet: "true"
 - name: "dnf | Assert about package manager"
   ansible.builtin.debug:
     msg: "{{ 'Package manager is: ' +
-      hostvars[inventory_hostname]['ansible_pkg_mgr'] + ', not dnf' }}"
+      hostvars[inventory_hostname]['ansible_facts']['pkg_mgr'] + ', not dnf' }}"
   when:
-    - "hostvars[inventory_hostname]['ansible_pkg_mgr'] != 'dnf'"
+    - "hostvars[inventory_hostname]['ansible_facts']['pkg_mgr'] != 'dnf'"
 - name: "dnf | Add the OS specific variables"
   ansible.builtin.include_vars:
-    file: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
+    file: "{{ hostvars[inventory_hostname]['ansible_facts']['os_family'] +
+      '.yml' }}"
   when:
-    - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
+    - "hostvars[inventory_hostname]['ansible_facts']['pkg_mgr'] == 'dnf'"
 - name: "dnf | Set facts about dnf role"
   ansible.builtin.set_fact:
     dnf_settings_main: "{{ hostvars[inventory_hostname]['dnf'] |
@@ -31,9 +32,7 @@
       ansible.builtin.unique() }}"
   when:
     - "hostvars[inventory_hostname]['dnf'] is defined"
-    - "hostvars[inventory_hostname]['dnf'] != []"
-    - "hostvars[inventory_hostname]['dnf'] != ''"
-    - "hostvars[inventory_hostname]['dnf'] != None"
+    - "hostvars[inventory_hostname]['dnf'] not in ['', [], '[]', None]"
 - name: "dnf | Find exists dnf repos"
   ansible.builtin.find:
     paths: "{{ hostvars[inventory_hostname]['dnf_repos_dest'] }}"
@@ -41,27 +40,29 @@
     file_type: "file"
     use_regex: "true"
     patterns: "(.*).repo"
-    excludes: "{{ exclude_dnf_drop_exists }}"
+    excludes: "{{ lookup('ansible.builtin.vars', 'exclude_dnf_drop_exists') }}"
   register: "dnf_repo_files_find_result"
   when:
     - "hostvars[inventory_hostname]['dnf'] is defined"
-    - "hostvars[inventory_hostname]['dnf'] != ''"
+    - "hostvars[inventory_hostname]['dnf'] not in ['', [], '[]', None]"
     - "hostvars[inventory_hostname]['dnf'] |
-       community.general.json_query(vars['dnf_drop_exists']) is defined"
-    - "hostvars[inventory_hostname]['dnf'] |
-       community.general.json_query(vars['dnf_drop_exists']) == 'true'"
-    - "exclude_dnf_drop_exists != []"
+       community.general.json_query(lookup('ansible.builtin.vars',
+       'dnf_drop_exists', default='')) == 'true'"
+    - "lookup('ansible.builtin.vars', 'exclude_dnf_drop_exists') != []"
   vars:
     dnf_drop_exists: "[] | map(&drop_exists || 'false', @) | [0]"
-    exclude_dnf_drop_exists: "{{ (vars['dnf_repos_files'] | map('regex_replace',
-      '^(.*)$', '\\1.repo') | list() | default([])) }}"
+    exclude_dnf_drop_exists: "{{ lookup('ansible.builtin.vars',
+      'dnf_repos_files', default=[]) | map('regex_replace',
+      '^(.*)$', '\\1.repo') | list() }}"
 - name: "dnf | Delete exists dnf repos"
   ansible.builtin.file:
     path: "{{ repo['path'] }}"
     state: "absent"
-  loop: "{{ vars['dnf_repo_files_find_result']['files'] | flatten(levels=1) }}"
+  loop: "{{ lookup('ansible.builtin.vars',
+    'dnf_repo_files_find_result')['files'] | flatten(levels=1) }}"
   loop_control:
     loop_var: "repo"
-    label: "{{ 'Remove repo:' + repo['path'] }}"
+    label: "{{ 'Remove repo: ' + repo['path'] }}"
   when:
-    - "vars['dnf_repo_files_find_result']['files'] is defined"
+    - "lookup('ansible.builtin.vars',
+      'dnf_repo_files_find_result')['files'] is defined"

@@ -1,8 +1,8 @@
 {{ '## automatic.conf' }}
 {{ '# ' + ansible_managed }}
 {{ '# Do not edit manually' }}
-{% for a in vars['dnf_settings_automatic'] %}
-{% if a['commands'] is defined and a['commands'] != '' %}
+{% for a in lookup('ansible.builtin.vars', 'dnf_settings_automatic') %}
+{% if a['commands'] is defined and a['commands'] not in ['', [], '[]', None] %}
 {% for ac in a['commands'] %}
 {% if loop['first'] %}
 {{ '' }}
@@ -17,10 +17,11 @@
 {{ 'download_updates=' + ac['download_updates'] }}
 {% endif %}
 {% if ac['network_online_timeout'] is defined and
-  ac['network_online_timeout'] != '' %}
+  ac['network_online_timeout'] not in ['', [], '[]', None] %}
 {{ 'network_online_timeout=' ~ ac['network_online_timeout'] }}
 {% endif %}
-{% if ac['random_sleep'] is defined and ac['random_sleep'] != '' %}
+{% if ac['random_sleep'] is defined and ac['random_sleep']
+  not in ['', [], '[]', None] %}
 {{ 'random_sleep=' ~ ac['random_sleep'] }}
 {% endif %}
 {% if ac['upgrade_type'] is defined and ac['upgrade_type'] in ['default',
@@ -29,7 +30,7 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if a['emitters'] is defined and a['emitters'] != '' %}
+{% if a['emitters'] is defined and a['emitters'] not in ['', [], '[]', None] %}
 {% for ae in a['emitters'] %}
 {% if loop['first'] %}
 {{ '' }}
@@ -42,63 +43,74 @@
 {{ 'emit_via=' + (ae['emit_via'] | join(', ')) }}
 {% endif %}
 {% endif %}
-{% if ae['system_name'] is defined and ae['system_name'] != '' %}
+{% if ae['system_name'] is defined and ae['system_name']
+  not in ['', [], '[]', None] %}
 {{ 'system_name=' + ae['system_name'] }}
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if a['command'] is defined and a['command'] != '' %}
+{% if a['command'] is defined and a['command'] not in ['', [], '[]', None] %}
 {% for ac in a['command'] %}
 {% if loop['first'] %}
 {{ '' }}
 {{ '[command]' }}
 {% endif %}
-{% if ac['command_format'] is defined and ac['command_format'] != '' %}
+{% if ac['command_format'] is defined and ac['command_format']
+  not in ['', [], '[]', None] %}
 {{ 'command_format=' + ac['command_format'] }}
 {% endif %}
-{% if ac['stdin_format'] is defined and ac['stdin_format'] != '' %}
+{% if ac['stdin_format'] is defined and ac['stdin_format']
+  not in ['', [], '[]', None] %}
 {{ 'stdin_format=' + ac['stdin_format'] }}
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if a['command_email'] is defined and a['command_email'] != '' %}
+{% if a['command_email'] is defined and a['command_email']
+  not in ['', [], '[]', None] %}
 {% for ac in a['command_email'] %}
 {% if loop['first'] %}
 {{ '' }}
 {{ '[command_email]' }}
 {% endif %}
-{% if ac['command_format'] is defined and ac['command_format'] != '' %}
+{% if ac['command_format'] is defined and ac['command_format']
+  not in ['', [], '[]', None] %}
 {{ 'command_format=' + ac['command_format'] }}
 {% endif %}
-{% if ac['email_from'] is defined and ac['email_from'] != '' %}
+{% if ac['email_from'] is defined and ac['email_from']
+  not in ['', [], '[]', None] %}
 {{ 'email_from=' + ac['email_from'] }}
 {% endif %}
-{% if ac['email_to'] is defined and ac['email_to'] != '' %}
+{% if ac['email_to'] is defined and ac['email_to']
+  not in ['', [], '[]', None] %}
 {{ 'email_to=' + ac['email_to'] }}
 {% endif %}
-{% if ac['stdin_format'] is defined and ac['stdin_format'] != '' %}
+{% if ac['stdin_format'] is defined and ac['stdin_format']
+  not in ['', [], '[]', None] %}
 {{ 'stdin_format=' + ac['stdin_format'] }}
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if a['email'] is defined and a['email'] != '' %}
+{% if a['email'] is defined and a['email'] not in ['', [], '[]', None] %}
 {% for ae in a['email'] %}
 {% if loop['first'] %}
 {{ '' }}
 {{ '[email]' }}
 {% endif %}
-{% if ae['email_from'] is defined and ae['email_from'] != '' %}
+{% if ae['email_from'] is defined and ae['email_from']
+  not in ['', [], '[]', None] %}
 {{ 'email_from=' + ae['email_from'] }}
 {% endif %}
-{% if ae['email_host'] is defined and ae['email_host'] != '' %}
+{% if ae['email_host'] is defined and ae['email_host']
+  not in ['', [], '[]', None] %}
 {{ 'email_host=' + ae['email_host'] }}
 {% endif %}
-{% if ae['email_to'] is defined and ae['email_to'] != '' %}
+{% if ae['email_to'] is defined and ae['email_to']
+  not in ['', [], '[]', None] %}
 {{ 'email_to=' + ae['email_to'] }}
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if a['base'] is defined and a['base'] != '' %}
+{% if a['base'] is defined and a['base'] not in ['', [], '[]', None] %}
 {% for d in a['base'] %}
 {% if loop['first'] %}
 {{ '' }}

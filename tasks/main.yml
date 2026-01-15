@@ -6,35 +6,29 @@
   ansible.builtin.include_tasks:
     file: "deploy_dnf_repos.yml"
   when:
-    - "vars['dnf_settings_repos'] is defined"
-    - "vars['dnf_settings_repos'] != []"
-    - "vars['dnf_settings_repos'] != ''"
-    - "vars['dnf_settings_repos'] != None"
+    - "lookup('ansible.builtin.vars', 'dnf_settings_repos',
+      default='') not in ['', [], '[]', None]"
 - name: "dnf | Include dnf main settings tasks"
   ansible.builtin.include_tasks:
     file: "deploy_dnf.yml"
   when:
-    - "vars['dnf_settings_main'] is defined"
-    - "vars['dnf_settings_main'] != []"
-    - "vars['dnf_settings_main'] != ''"
-    - "vars['dnf_settings_main'] != None"
+    - "lookup('ansible.builtin.vars', 'dnf_settings_main',
+      default='') not in ['', [], '[]', None]"
 - name: "dnf | Include dnf-versionlock tasks"
   ansible.builtin.include_tasks:
     file: "deploy_dnf_versionlock.yml"
   when:
     - "hostvars[inventory_hostname]['dnf'] is defined"
-    - "hostvars[inventory_hostname]['dnf'] != ''"
+    - "hostvars[inventory_hostname]['dnf'] not in ['', [], '[]', None]"
     - "hostvars[inventory_hostname]['dnf'] |
-       community.general.json_query(vars['dnf_versionlock_enable']) is defined"
-    - "hostvars[inventory_hostname]['dnf'] |
-       community.general.json_query(vars['dnf_versionlock_enable']) == 'true'"
+       community.general.json_query(lookup('ansible.builtin.vars',
+      'dnf_versionlock_enable', default='')) == 'true'"
   vars:
-    dnf_versionlock_enable: "[].versionlock[] | map(&enable || 'false', @) | [0]"
+    dnf_versionlock_enable: "[].versionlock[] |
+      map(&enable || 'false', @) | [0]"
 - name: "dnf | Include dnf-automatic tasks"
   ansible.builtin.include_tasks:
     file: "deploy_dnf_automatic.yml"
   when:
-    - "vars['dnf_settings_automatic'] is defined"
-    - "vars['dnf_settings_automatic'] != []"
-    - "vars['dnf_settings_automatic'] != ''"
-    - "vars['dnf_settings_automatic'] != None"
+    - "lookup('ansible.builtin.vars', 'dnf_settings_automatic',
+      default='') not in ['', [], '[]', None]"
